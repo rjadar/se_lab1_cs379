@@ -1,0 +1,50 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor Patient
+actor "Attending Physician" as Physician
+actor "Notification Service" as Notification
+actor "Notification Service" as Notification
+
+rectangle "Telemedicine Slot Booking & Prescription Portal" {
+  usecase "UC-01: UC-01: Browse Doctors\nand Specialties" as UC1
+  usecase "UC-02: UC-02: View Doctor Profile\nand Available Slots" as UC2
+  usecase "UC-03: UC-03: Book Video\nConsultation Slot" as UC3
+  usecase "UC-04: UC-04: Confirm Appointment" as UC4
+  usecase "UC-05: Send Booking\nNotification" as UC5
+  usecase "UC-06: UC-06: Access Secure\nConsultation Room" as UC6
+  usecase "UC-07: UC-07: Conduct Video\nConsultation" as UC7
+  usecase "UC-08: UC-08: Manage Availability" as UC8
+  usecase "UC-09: UC-09: Create Structured\nPrescription" as UC9
+  usecase "UC-10: UC-10: Digitally Sign\nPrescription" as UC10
+  usecase "UC-11: UC-11: Download Signed\nPrescription PDF" as UC11
+  usecase "UC-12: UC-12: Reschedule or Cancel\nAppointment" as UC12
+}
+
+Patient --> UC1
+Patient --> UC2
+Patient --> UC3
+Patient --> UC5
+Patient --> UC6
+Patient --> UC11
+Patient --> UC12
+
+Physician --> UC5
+Physician --> UC6
+Physician --> UC7
+Physician --> UC8
+Physician --> UC9
+Physician --> UC12
+Notification --> UC5
+Notification --> UC5
+
+UC3 .> UC2 : <<include>>
+UC3 .> UC4 : <<include>>
+UC4 .> UC5 : <<include>>
+UC6 .> UC7 : <<include>>
+UC9 .> UC10 : <<include>>
+UC11 .> UC9 : <<extend>>
+UC12 .> UC3 : <<extend>>
+@enduml
