@@ -1,26 +1,37 @@
 # Telemedicine Slot Booking & Prescription Portal
 
-PES University — Department of CSE | Lab 1: Requirements Engineering & UML Use-Case Modelling  
+PES University — Department of CSE  
+Lab 1: Requirements Engineering & UML Use-Case Modelling  
 Problem Statement #11: Healthcare & Telemedicine
 
 ## Contents
 
-- `requirements-table.docx` — Submission-ready requirements table.
+- `requirements-table.docx` — Complete requirements table with five functional requirements and two non-functional requirements.
 - `requirements.md` — Editable requirements source.
-- `use-case-diagram.pdf` — Submission-ready UML use-case diagram.
-- `use-case-diagram.svg` — Editable diagram preview.
-- `use-case-diagram.puml` — Editable PlantUML source for the diagram.
-- `use-case-flow-specification.docx` — One-page flow specification for booking a video consultation.
-- `use-case-flow-specification.pdf` — Submission-ready PDF export.
-- `use-case-flow-specification.pdf` — Submission-ready PDF export.
+- `use-case-diagram.pdf` — UML use-case diagram.
+- `use-case-flow-specification.docx` — One-page use-case flow specification.
+- `use-case-flow-specification.pdf` — PDF version of the use-case flow specification.
 
 ## Actors
 
-- **Patient** — discovers an appropriate doctor, books a consultation, joins the video room, and obtains a prescription.
-- **Attending Physician** — manages available consultation slots, conducts consultations, and authors/signs prescriptions.
-- **Notification Service** — sends booking confirmations and appointment updates.
-- **Notification Service** — sends booking confirmations and appointment updates.
+- **Patient** — Views doctor specialties, books video consultation slots, joins consultations, and accesses prescriptions.
+- **Attending Physician** — Conducts consultations and authors/digitally signs prescriptions.
+- **License Verification Service** — Verifies the physician’s license before a prescription is digitally signed.
 
-## Core scope
+## Main Use Cases
 
-The portal supports specialty discovery, secure slot booking, encrypted video-room access, remote consultations, and digitally signed prescription PDFs.
+- UC-01: View Doctor Specialties
+- UC-02: Book Video Consultation Slot
+- UC-03: Join Video Consultation
+- UC-04: Download Digital Prescription
+- UC-05: Author and Digitally Sign Prescription
+
+## UML Relationships
+
+- Booking a video consultation slot `«include»` generates an encrypted consultation link.
+- Authoring and digitally signing a prescription `«include»` validates the doctor’s license.
+- Viewing a digital prescription `«extend»` downloads the digital prescription.
+
+## Core Scope
+
+The portal allows patients to find appropriate physicians, book secure telemedicine appointments, join encrypted consultation rooms, and obtain digitally signed prescription records.
