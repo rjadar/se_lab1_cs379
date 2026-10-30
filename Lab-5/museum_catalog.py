@@ -5,8 +5,9 @@ import sqlite3
 
 conn = sqlite3.connect(":memory:")
 conn.execute(
-    "CREATE TABLE artifacts (id INTEGER PRIMARY KEY, title TEXT, "
-    "era TEXT, value INTEGER, on_display INTEGER)"
+    "CREATE TABLE artifacts ("
+    "id INTEGER PRIMARY KEY, title TEXT, era TEXT, "
+    "value INTEGER, on_display INTEGER)"
 )
 
 
@@ -26,6 +27,7 @@ def display_status(artifact_id, _curator):
         "SELECT on_display FROM artifacts WHERE id = ?",
         (artifact_id,)
     ).fetchone()
+
     if row[0] == 1:
         return "on display"
     return "in storage"
@@ -33,13 +35,12 @@ def display_status(artifact_id, _curator):
 
 def total_value(era):
     """Calculate the total value of artifacts from an era."""
-    total=0
+    total = 0
     for (value,) in conn.execute(
         "SELECT value FROM artifacts WHERE era = ?", (era,)
     ):
         total += value
     return total
-
 
 
 def move_to_display(artifact_id):
@@ -62,6 +63,7 @@ def main():
     add_artifact("Palm Manuscript", "Vijayanagara", 80000, 1)
     add_artifact("Terracotta Lamp", "Chola", 15000)
     move_to_display(1)
+
     print(display_status(1, "Dr. Rao"))
     print(total_value("Chola"))
     backup_note()
