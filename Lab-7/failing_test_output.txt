@@ -1,0 +1,187 @@
+PS> python -m pytest test_movie_tickets.py -v
+============================= test session starts =============================
+platform win32 -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- C:\Python314\python.exe
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: D:\codes\SE\se_lab1_cs379\Lab-7
+plugins: anyio-4.14.2, hypothesis-6.170.15, cov-7.1.0
+collecting ... collected 10 items
+
+test_movie_tickets.py::test_parse_seat_valid_seats PASSED                [ 10%]
+test_movie_tickets.py::test_parse_seat_rejects_malformed_text FAILED     [ 20%]
+test_movie_tickets.py::test_parse_seat_rejects_unexpected_types FAILED   [ 30%]
+test_movie_tickets.py::test_total_price_for_valid_csv PASSED             [ 40%]
+test_movie_tickets.py::test_total_price_rejects_negative_amounts FAILED  [ 50%]
+test_movie_tickets.py::test_total_price_rejects_malformed_csv PASSED     [ 60%]
+test_movie_tickets.py::test_total_price_rejects_unexpected_types FAILED  [ 70%]
+test_movie_tickets.py::test_average_rating_for_valid_values PASSED       [ 80%]
+test_movie_tickets.py::test_average_rating_rejects_empty_or_malformed_values FAILED [ 90%]
+test_movie_tickets.py::test_average_rating_rejects_unexpected_types FAILED [100%]
+
+================================== FAILURES ===================================
+___________________ test_parse_seat_rejects_malformed_text ____________________
+
+    @given(seat=st.text().filter(lambda value: SEAT_PATTERN.fullmatch(value) is None))
+>   def test_parse_seat_rejects_malformed_text(seat):
+                   ^^^
+
+test_movie_tickets.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_movie_tickets.py:22: in test_parse_seat_rejects_malformed_text
+    parse_seat(seat)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+seat = ''
+
+    def parse_seat(seat):
+>       return seat[0].upper(), int(seat[1:])
+               ^^^^^^^
+E       IndexError: string index out of range
+E       Failing test case: test_parse_seat_rejects_malformed_text(
+E           seat='',
+E       )
+
+movie_tickets.py:2: IndexError
+__________________ test_parse_seat_rejects_unexpected_types ___________________
+  + Exception Group Traceback (most recent call last):
+  |   File "D:\codes\SE\se_lab1_cs379\Lab-7\test_movie_tickets.py", line 26, in test_parse_seat_rejects_unexpected_types
+  |     def test_parse_seat_rejects_unexpected_types(seat):
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 2 distinct failures. (2 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "D:\codes\SE\se_lab1_cs379\Lab-7\test_movie_tickets.py", line 28, in test_parse_seat_rejects_unexpected_types
+    |     parse_seat(seat)
+    |     ~~~~~~~~~~^^^^^^
+    |   File "D:\codes\SE\se_lab1_cs379\Lab-7\movie_tickets.py", line 2, in parse_seat
+    |     return seat[0].upper(), int(seat[1:])
+    |            ^^^^^^^^^^^^^
+    | AttributeError: 'int' object has no attribute 'upper'
+    | Failing test case: test_parse_seat_rejects_unexpected_types(
+    |     seat=b'\x00',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "D:\codes\SE\se_lab1_cs379\Lab-7\test_movie_tickets.py", line 28, in test_parse_seat_rejects_unexpected_types
+    |     parse_seat(seat)
+    |     ~~~~~~~~~~^^^^^^
+    |   File "D:\codes\SE\se_lab1_cs379\Lab-7\movie_tickets.py", line 2, in parse_seat
+    |     return seat[0].upper(), int(seat[1:])
+    |            ~~~~^^^
+    | IndexError: index out of range
+    | Failing test case: test_parse_seat_rejects_unexpected_types(
+    |     seat=b'',
+    | )
+    +------------------------------------
+__________________ test_total_price_rejects_negative_amounts __________________
+
+    @given(prices=st.lists(st.integers(max_value=-1, min_value=-100000), min_size=1, max_size=10))
+>   def test_total_price_rejects_negative_amounts(prices):
+                   ^^^
+
+test_movie_tickets.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+prices = [-1]
+
+    @given(prices=st.lists(st.integers(max_value=-1, min_value=-100000), min_size=1, max_size=10))
+    def test_total_price_rejects_negative_amounts(prices):
+        prices_csv = ",".join(map(str, prices))
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+E       Failing test case: test_total_price_rejects_negative_amounts(
+E           prices=[-1],  # or any other generated value
+E       )
+
+test_movie_tickets.py:40: Failed
+__________________ test_total_price_rejects_unexpected_types __________________
+
+    @given(prices_csv=st.one_of(st.none(), st.integers(), st.lists(st.integers())))
+>   def test_total_price_rejects_unexpected_types(prices_csv):
+                   ^^^
+
+test_movie_tickets.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_movie_tickets.py:53: in test_total_price_rejects_unexpected_types
+    total_price(prices_csv)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+prices_csv = None
+
+    def total_price(prices_csv):
+>       prices = [int(p) for p in prices_csv.split(',')]
+                                  ^^^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'split'
+E       Failing test case: test_total_price_rejects_unexpected_types(
+E           prices_csv=None,  # or any other generated value
+E       )
+
+movie_tickets.py:5: AttributeError
+____________ test_average_rating_rejects_empty_or_malformed_values ____________
+
+    @given(ratings=st.text().filter(lambda value: RATINGS_PATTERN.fullmatch(value) is None))
+>   def test_average_rating_rejects_empty_or_malformed_values(ratings):
+                   ^^^
+
+test_movie_tickets.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_movie_tickets.py:65: in test_average_rating_rejects_empty_or_malformed_values
+    average_rating(ratings)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ratings = ''
+
+    def average_rating(ratings):
+        values = [int(r) for r in ratings.split()]
+>       return round(sum(values) / len(values), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ZeroDivisionError: division by zero
+E       Failing test case: test_average_rating_rejects_empty_or_malformed_values(
+E           ratings='',
+E       )
+E       Explanation:
+E           These lines were always and only run by failing test cases:
+E               D:\codes\SE\se_lab1_cs379\Lab-7\movie_tickets.py:10
+
+movie_tickets.py:10: ZeroDivisionError
+________________ test_average_rating_rejects_unexpected_types _________________
+
+    @given(ratings=st.one_of(st.none(), st.integers(), st.lists(st.integers())))
+>   def test_average_rating_rejects_unexpected_types(ratings):
+                   ^^^
+
+test_movie_tickets.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_movie_tickets.py:71: in test_average_rating_rejects_unexpected_types
+    average_rating(ratings)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ratings = None
+
+    def average_rating(ratings):
+>       values = [int(r) for r in ratings.split()]
+                                  ^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'split'
+E       Failing test case: test_average_rating_rejects_unexpected_types(
+E           ratings=None,  # or any other generated value
+E       )
+
+movie_tickets.py:9: AttributeError
+============================== warnings summary ===============================
+C:\Users\Rohan\AppData\Roaming\Python\Python314\site-packages\anyio\pytest_plugin.py:14
+  C:\Users\Rohan\AppData\Roaming\Python\Python314\site-packages\anyio\pytest_plugin.py:14: PytestRemovedIn10Warning: _pytest.python.CallSpec2 has been renamed to CallSpec.
+  The CallSpec2 alias will be removed in pytest 10.
+  Update imports to use CallSpec instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#callspec2-renamed
+    from _pytest.python import CallSpec2
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED test_movie_tickets.py::test_parse_seat_rejects_malformed_text - IndexE...
+FAILED test_movie_tickets.py::test_parse_seat_rejects_unexpected_types - Exce...
+FAILED test_movie_tickets.py::test_total_price_rejects_negative_amounts - Fai...
+FAILED test_movie_tickets.py::test_total_price_rejects_unexpected_types - Att...
+FAILED test_movie_tickets.py::test_average_rating_rejects_empty_or_malformed_values
+FAILED test_movie_tickets.py::test_average_rating_rejects_unexpected_types - ...
+=================== 6 failed, 4 passed, 1 warning in 6.11s ====================

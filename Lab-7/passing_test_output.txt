@@ -1,0 +1,32 @@
+PS> python -m pytest test_movie_tickets.py -v
+============================= test session starts =============================
+platform win32 -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- C:\Python314\python.exe
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: D:\codes\SE\se_lab1_cs379\Lab-7
+plugins: anyio-4.14.2, hypothesis-6.170.15, cov-7.1.0
+collecting ... collected 12 items
+
+test_movie_tickets.py::test_parse_seat_valid_seats PASSED                [  8%]
+test_movie_tickets.py::test_parse_seat_rejects_malformed_text PASSED     [ 16%]
+test_movie_tickets.py::test_parse_seat_rejects_unexpected_types PASSED   [ 25%]
+test_movie_tickets.py::test_total_price_for_valid_csv PASSED             [ 33%]
+test_movie_tickets.py::test_total_price_rejects_negative_amounts PASSED  [ 41%]
+test_movie_tickets.py::test_total_price_rejects_malformed_csv PASSED     [ 50%]
+test_movie_tickets.py::test_total_price_rejects_unexpected_types PASSED  [ 58%]
+test_movie_tickets.py::test_total_price_rejects_values_too_large_to_calculate PASSED [ 66%]
+test_movie_tickets.py::test_average_rating_for_valid_values PASSED       [ 75%]
+test_movie_tickets.py::test_average_rating_rejects_empty_or_malformed_values PASSED [ 83%]
+test_movie_tickets.py::test_average_rating_rejects_unexpected_types PASSED [ 91%]
+test_movie_tickets.py::test_average_rating_rejects_values_outside_one_to_five PASSED [100%]
+
+============================== warnings summary ===============================
+C:\Users\Rohan\AppData\Roaming\Python\Python314\site-packages\anyio\pytest_plugin.py:14
+  C:\Users\Rohan\AppData\Roaming\Python\Python314\site-packages\anyio\pytest_plugin.py:14: PytestRemovedIn10Warning: _pytest.python.CallSpec2 has been renamed to CallSpec.
+  The CallSpec2 alias will be removed in pytest 10.
+  Update imports to use CallSpec instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#callspec2-renamed
+    from _pytest.python import CallSpec2
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 12 passed, 1 warning in 0.88s ========================
